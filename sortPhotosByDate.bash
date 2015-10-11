@@ -104,7 +104,7 @@ if [[ "$1" == "doAction" && "$2" != "" ]]; then
  # Evaluate the file extension
  if [ "$USE_FILE_EXT" == "TRUE" ]; then
  # Get the FILE type and lowercase it for use as the extension
- EXT=`file -b $2 | awk -F  '{print $1}' | tr '[:upper:]' '[:lower:]'`
+ EXT=`file -b $2 | awk -F\  '{print $1}' | tr '[:upper:]' '[:lower:]'`
  if [[ "${EXT}" == "jpeg" && "${JPEG_TO_JPG}" == "TRUE" ]]; then EXT="jpg"; fi;
  else
  # Lowercase and use the current extension as-is
@@ -113,7 +113,7 @@ if [[ "$1" == "doAction" && "$2" != "" ]]; then
  # Evaluate the file name
  if [ "$TS_AS_FILENAME" == "TRUE" ]; then
  # Get date and times from EXIF stamp
- ETIME=`echo $DATETIME | awk -F  '{print $2}'`
+ ETIME=`echo $DATETIME | awk -F\  '{print $2}'`
  # Unix Formatted DATE and TIME - For feeding to date()
  UFDATE=`echo $EDATE | sed y/:/-/`
  # Unix DateSTAMP
@@ -150,7 +150,7 @@ for x in "${FILETYPES[@]}"; do
  echo "Scanning for $x..."
  # FIXME: Eliminate problems with unusual characters in filenames.
  # Currently the exec call will fail and they will be skipped.
- find . -iname "$x" -print0 -exec sh -c "$0 doAction '{}'" ;
+ find . -iname "$x" -print0 -exec sh -c "$0 doAction '{}'" \;
  echo "... end of $x"
 done;
 # clean up empty directories. Find can do this easily.
